@@ -24,7 +24,6 @@ userController.createUser = async (req, res) => {
     res.status(200).json({ status: "ok", data: newUser });
   } catch (err) {
     console.error("Error in createUser:", err);
-
     res.status(400).json({ status: "fail", error: err });
   }
 };
@@ -44,6 +43,18 @@ userController.loginWithEmail = async (req, res) => {
   } catch (err) {
     res.status(400).json({ status: "fail", message: err.message });
     console.error("Error in loginWithEmail:", err);
+  }
+};
+
+userController.getEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email }, "-createdAt -updatedAt -__v");
+
+    res.status(200).json({ status: "success", user });
+  } catch (err) {
+    res.status(400).json({ status: "fail", message: err.message });
+    console.error("Error in getEmail:", err);
   }
 };
 
