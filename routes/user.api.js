@@ -10,6 +10,6 @@ router.post("/", userController.createUser);
 // 2. 로그인 endpoint
 router.post("/login", userController.loginWithEmail);
 
-router.get("/me", authController.authenticate);
+router.get("/me", authController.authenticate, userController.getUser);
 
 module.exports = router;

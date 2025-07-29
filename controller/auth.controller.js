@@ -6,7 +6,7 @@ const authController = {};
 
 const secretKey = process.env.JWT_SECRET_KEY;
 
-authController.authenticate = async (req, res) => {
+authController.authenticate = async (req, res, next) => {
   try {
     const tokenString = req.headers.authorization;
     if (!tokenString) {
@@ -18,7 +18,9 @@ authController.authenticate = async (req, res) => {
         throw new Error("invalid token");
       }
       // res.status(200).json({ status: 'ok', userId: payload._id });
+      req.userId = payload._id;
     });
+    next();
   } catch (err) {
     res.status(400).json({ status: "fail", message: err.message });
     console.error("Error in :", err);
